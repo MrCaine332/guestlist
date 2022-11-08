@@ -4,9 +4,8 @@ import Icon from "../../elements/icon/Icon";
 import AppInput from "../../elements/app-input/AppInput";
 import AppButton from "../../elements/app-button/AppButton";
 import {useDispatch} from "react-redux";
-import authThunks from "../../redux/thunks/auth-thunks";
-import appThunks from "../../redux/thunks/app-thunks";
 import './EditForm.scss'
+import appThunks from "../../app/redux/thunks/app-thunks";
 
 const reservationInputs = [
         { valueField: 'reserveeName', type: 'text', placeholder: 'Name Surname', required: true },

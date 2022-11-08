@@ -4,8 +4,8 @@ import Icon from "../../elements/icon/Icon";
 import AppInput from "../../elements/app-input/AppInput";
 import AppButton from "../../elements/app-button/AppButton";
 import {useDispatch, useSelector} from "react-redux";
-import appThunks from "../../redux/thunks/app-thunks";
 import './ReservationFind.scss'
+import appThunks from "../../app/redux/thunks/app-thunks";
 
 const ReservationFind = () => {
     const dispatch = useDispatch()

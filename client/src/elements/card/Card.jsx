@@ -3,11 +3,10 @@ import './Card.scss'
 
 const Card = ({ children }) => {
     return (
-        <div className="card" id="card">
-            <div className="card__content">
-                { children }
-            </div>
+        <div className="card">
+            { children }
         </div>
+
     );
 };
 

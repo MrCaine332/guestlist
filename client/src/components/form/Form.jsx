@@ -4,10 +4,10 @@ import Icon from "../../elements/icon/Icon";
 import AppInput from "../../elements/app-input/AppInput";
 import AppButton from "../../elements/app-button/AppButton";
 import {useDispatch} from "react-redux";
-import authThunks from "../../redux/thunks/auth-thunks";
-import appThunks from "../../redux/thunks/app-thunks";
 import './Form.scss'
 import {useLocation, useNavigate, useParams} from "react-router-dom";
+import authThunks from "../../app/redux/thunks/auth-thunks";
+import appThunks from "../../app/redux/thunks/app-thunks";
 
 
 

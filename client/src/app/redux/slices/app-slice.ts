@@ -1,10 +1,27 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {AppSlice} from "../../types";
 
-const initialState = {
+const initialState: AppSlice = {
     accounts: [],
     reservations: [],
-    newReservation: {},
-    checkedReservation: {},
+    newReservation: {
+        reservationCode: '',
+        prAgentId: '',
+        reserveeName: '',
+        numberOfPlaces: 0,
+        instagramAccount: '',
+        comment: '',
+        createdAt: ''
+    },
+    checkedReservation: {
+        reservationCode: '',
+        prAgentId: '',
+        reserveeName: '',
+        numberOfPlaces: 0,
+        instagramAccount: '',
+        comment: '',
+        createdAt: ''
+    },
     isFetching: false,
 }
 

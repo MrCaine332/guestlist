@@ -1,12 +1,13 @@
 import {authActions} from "../slices/auth-slice";
-import $api from "../../http";
 import {appActions} from "../slices/app-slice";
+import {AppDispatch, RootState} from "../store";
+import $api from "../../http";
 
-const createReservation = (body) => {
-    return async (dispatch) => {
+const createReservation = (reservation: any) => {
+    return async (dispatch: AppDispatch) => {
         dispatch(appActions.setIsFetching(true))
         try {
-            const { data } = await $api.post('/reservation', body)
+            const { data } = await $api.post('/reservation', reservation)
             dispatch(appActions.setNewReservation({...data.reservation, qrCode: data.qrCode}))
         } catch (e) {
             return e
@@ -16,11 +17,11 @@ const createReservation = (body) => {
     }
 }
 
-const getReservation = (reservation) => {
-    return async (dispatch) => {
+const getReservation = (reservationCode: string) => {
+    return async (dispatch: AppDispatch) => {
         dispatch(appActions.setIsFetching(true))
         try {
-            const { data } = await $api.get(`/reservation/${reservation}`)
+            const { data } = await $api.get(`/reservation/${reservationCode}`)
             dispatch(appActions.setCheckedReservation({...data.reservation, qrCode: data.qrCode}))
         } catch (e) {
             return e
@@ -31,7 +32,7 @@ const getReservation = (reservation) => {
 }
 
 const getReservations = () => {
-    return async (dispatch) => {
+    return async (dispatch: AppDispatch) => {
         try {
             const { data } = await $api.get('/reservations')
             dispatch(appActions.setReservations(data))
@@ -41,8 +42,8 @@ const getReservations = () => {
     }
 }
 
-const updateReservation = (body) => {
-    return async (dispatch, getState) => {
+const updateReservation = (body: any) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         dispatch(appActions.setIsFetching(true))
         try {
             const reservation = getState().app.checkedReservation
@@ -57,7 +58,7 @@ const updateReservation = (body) => {
 }
 
 const getAccounts = () => {
-    return async (dispatch) => {
+    return async (dispatch: AppDispatch) => {
         try {
             const { data } = await $api.get('/users')
             dispatch(appActions.setAccounts(data))

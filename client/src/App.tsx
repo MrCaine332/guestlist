@@ -1,13 +1,13 @@
 import './App.scss';
 import Router from "./router/Router";
-import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import authThunks from "./redux/thunks/auth-thunks";
+import {useAppDispatch, useAppSelector} from "./app/hooks";
+import authThunks from "./app/redux/thunks/auth-thunks";
 
 const App = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const isChecked = useSelector(state => state.auth.isChecked)
+    const isChecked = useAppSelector(state => state.auth.isChecked)
 
     useEffect(() => {
         dispatch(authThunks.checkAuth())

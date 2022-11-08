@@ -8,7 +8,7 @@ const PanelCard = ({ type, account, reservation }) => {
         if (type === 'reservation')
             return new Date(reservation.createdAt)
         if (type === 'account')
-            return new Date(reservation.createdAt)
+            return new Date(account.createdAt)
     }, [reservation])
 
     return (
@@ -23,7 +23,7 @@ const PanelCard = ({ type, account, reservation }) => {
                         <span>{ reservation.numberOfPlaces } places</span>
                         <span>Date:&nbsp;
                             { `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}/`
-                                + `${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}/`
+                                + `${date.getMonth() + 1 < 10 ? '0' + date.getMonth() + 1 : date.getMonth() + 1}/`
                                 + `${date.getFullYear()}` }
                             &nbsp;
                             { `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:`
@@ -43,7 +43,7 @@ const PanelCard = ({ type, account, reservation }) => {
                         <span>Role: { account.role }</span>
                         <span>Last login:&nbsp;
                             { `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}/`
-                                + `${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}/`
+                                + `${date.getMonth() + 1 < 10 ? '0' + date.getMonth() + 1 : date.getMonth() + 1}/`
                                 + `${date.getFullYear()}` }
                             &nbsp;
                             { `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:`

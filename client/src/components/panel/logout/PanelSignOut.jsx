@@ -1,7 +1,7 @@
 import React from 'react';
 import './PanelSignOut.scss'
 import {useDispatch} from "react-redux";
-import authThunks from "../../../redux/thunks/auth-thunks";
+import authThunks from "../../../app/redux/thunks/auth-thunks";
 
 const PanelSignOut = () => {
     const dispatch = useDispatch()

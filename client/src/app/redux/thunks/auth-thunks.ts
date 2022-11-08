@@ -1,8 +1,9 @@
-import $api from "../../http";
 import {authActions} from "../slices/auth-slice";
+import {AppDispatch} from "../store";
+import $api from "../../http";
 
-const login = (body) => {
-    return async (dispatch) => {
+const login = (body: any) => {
+    return async (dispatch: AppDispatch) => {
         dispatch(authActions.setIsFetching(true))
         try {
             const { data } = await $api.post('login', body)
@@ -18,7 +19,7 @@ const login = (body) => {
 }
 
 const logout = () => {
-    return async (dispatch) => {
+    return async (dispatch: AppDispatch) => {
         localStorage.removeItem('USER_TOKEN')
         dispatch(authActions.setUser({}))
         dispatch(authActions.setIsAuthenticated(false))
@@ -26,7 +27,7 @@ const logout = () => {
 }
 
 const checkAuth = () => {
-    return async (dispatch) => {
+    return async (dispatch: AppDispatch) => {
         const accessToken = localStorage.getItem('USER_TOKEN')
         if (accessToken) {
             const { data } = await $api.post('check', { accessToken })

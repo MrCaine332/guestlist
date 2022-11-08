@@ -4,7 +4,7 @@ import checkIcon from '../../resources/icons/check.png'
 import AppLink from "../../elements/app-link/AppLink";
 import Icon from "../../elements/icon/Icon";
 import {useDispatch} from "react-redux";
-import {appActions} from "../../redux/slices/app-slice";
+import {appActions} from "../../app/redux/slices/app-slice";
 
 const ReservationReady = ({ reservation }) => {
     const dispatch = useDispatch()

@@ -2,10 +2,10 @@ import React, {useMemo} from 'react';
 import AppLink from "../../elements/app-link/AppLink";
 import Icon from "../../elements/icon/Icon";
 import {useDispatch} from "react-redux";
-import {appActions} from "../../redux/slices/app-slice";
 import AppInput from "../../elements/app-input/AppInput";
 import AppButton from "../../elements/app-button/AppButton";
 import './ReservationInfo.scss'
+import {appActions} from "../../app/redux/slices/app-slice";
 
 const ReservationInfo = ({ reservation, setEdit }) => {
     const dispatch = useDispatch()
@@ -42,7 +42,7 @@ const ReservationInfo = ({ reservation, setEdit }) => {
                     <span>Places: <b>{ reservation.numberOfPlaces }</b></span><br/>
                     <span>Reservation date: <br/>
                         { `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}/`
-                            + `${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}/`
+                            + `${date.getMonth() + 1 < 10 ? '0' + date.getMonth() + 1 : date.getMonth() + 1}/`
                             + `${date.getFullYear()}` }
                         &nbsp;
                         { `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:`

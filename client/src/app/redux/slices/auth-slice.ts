@@ -1,8 +1,18 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {AuthSlice} from "../../types";
 
-const initialState = {
+const initialState: AuthSlice = {
     isAuthenticated: false,
-    user: {},
+    user: {
+        username: '',
+        password: '',
+        name: '',
+        surname: '',
+        role: '',
+        lastLogin: '',
+        createdAt: '',
+        updatedAt: ''
+    },
     isChecked: false,
     error: null,
     isFetching: false

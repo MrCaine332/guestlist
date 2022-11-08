@@ -1,23 +1,22 @@
-import axios from 'axios';
-import {authActions} from "../redux/slices/auth-slice";
+import axios, {AxiosRequestConfig} from 'axios';
 import store from "../redux/store";
 
-export const API_URL = `http://192.168.1.102:5000/api`
+export const API_URL = `http://localhost:5000/api`
 
 const $api = axios.create({
     withCredentials: true,
     baseURL: API_URL
 })
 
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('USER_TOKEN')}`
+$api.interceptors.request.use((config: AxiosRequestConfig) => {
+    if (config.headers)
+        config.headers.Authorization = `Bearer ${localStorage.getItem('USER_TOKEN')}`
     return config;
 })
 
 $api.interceptors.response.use((config) => {
     return config;
 },async (error) => {
-    console.log(error)
     throw error
     // const originalRequest = error.config;
     // if (error.response.status === 401 && error.config && !error.config._isRetry) {

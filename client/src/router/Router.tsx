@@ -4,16 +4,15 @@ import Home from "../pages/home/Home";
 import Reservation from "../pages/reservation/Reservation";
 import Login from "../pages/login/Login";
 import Panel from "../pages/panel/Panel";
-import {useSelector} from "react-redux";
 import Reservations from "../components/reservations/Reservations";
 import Accounts from "../components/accounts/Accounts";
-import Test from "../pages/test/Test";
 import Test2 from "../pages/test2/Test2";
 import ReservationCheck from "../pages/reservation-check/ReservationCheck";
+import {useAppSelector} from "../app/hooks";
 
 const Router = () => {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-    const role = useSelector(state => state.auth.user.role)
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
+    const role = useAppSelector(state => state.auth.user.role)
 
     return (
         <Routes>

@@ -4,9 +4,6 @@ import PanelUserInfo from "../../components/panel/user-info/PanelUserInfo";
 import PanelNavbar from "../../components/panel/navbar/PanelNavbar";
 import PanelSignOut from "../../components/panel/logout/PanelSignOut";
 import {Outlet} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import authThunks from "../../redux/thunks/auth-thunks";
-import Modal from "../../elements/modal/Modal";
 
 const Panel = () => {
     const checkboxRef = useRef(null)
@@ -16,7 +13,7 @@ const Panel = () => {
             <input ref={checkboxRef} type="checkbox" id="nav-checkbox" hidden />
             <label htmlFor="nav-checkbox" className="menu">
                 <div className="a">X</div>
-                <div className="b">-></div>
+                <div className="b">-{'>'}</div>
             </label>
             <div className="panel__sidebar">
                 <PanelUserInfo />

@@ -3,10 +3,10 @@ import './Reservations.scss'
 import AppButton from "../../elements/app-button/AppButton";
 import PanelCard from "../../elements/panel-card/PanelCard";
 import {useDispatch, useSelector} from "react-redux";
-import appThunks from "../../redux/thunks/app-thunks";
 import DeleteButton from "../../elements/delete-button/DeleteButton";
 import Modal from "../../elements/modal/Modal";
 import {Portal} from "react-portal";
+import appThunks from "../../app/redux/thunks/app-thunks";
 
 const Reservations = () => {
 
