@@ -1,0 +1,43 @@
+
+.app-button {
+  font-size: 17px;
+  display: block;
+  padding: 10px 35px;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  //transition: background .25s;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid var(--button);
+  color: #79A0C1;
+  transition: 0.3s;
+  background: transparent;
+  text-align: center;
+
+  .wave {
+    background: var(--button);
+    opacity: 0.4;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: wave .5s linear;
+    pointer-events: none;
+    position: absolute;
+  }
+}
+
+.app-button:hover {
+  border: 2px solid var(--button-hover);
+  color: var(--button-hover);
+  //background: rgb(220,220,220);
+}
+
+
+@keyframes wave {
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+

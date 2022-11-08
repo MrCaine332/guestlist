@@ -1,0 +1,32 @@
+.panel__navbar {
+  margin-top: 50px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.panel__navbar-item {
+  padding: 15px 50px;
+  width: 100%;
+  font-size: 15pt;
+  cursor: pointer;
+  transition: 0.15s;
+  text-decoration: none;
+
+  &:hover {
+    background: #9ab7e1;
+    color: white;
+  }
+}
+
+.panel__navbar-item_active {
+  background: var(--button);
+  color: var(--text-primary);
+}
+
+@media screen and (max-width: 1200px) {
+  .panel__navbar-item {
+    font-size: 12pt;
+  }
+}

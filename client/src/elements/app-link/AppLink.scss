@@ -1,0 +1,30 @@
+.app-link {
+  text-decoration: none;
+  width: fit-content;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--button);
+  fill: var(--button);
+
+  * {
+    color: var(--button);
+    fill: var(--button);
+  }
+
+  &:hover {
+    color: var(--button-hover);
+    fill: var(--button-hover);
+
+    * {
+      color: var(--button-hover);
+      fill: var(--button-hover);
+    }
+  }
+
+}
+
+.underlined {
+  text-decoration: underline;
+}

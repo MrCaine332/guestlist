@@ -1,0 +1,81 @@
+.reservation__ready {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  //gap: 50px;
+  padding: 30px 20px;
+  text-align: center;
+
+  .separation__line {
+    width: 80%;
+    height: 1px;
+    border: none;
+    background: var(--input-unfocus);
+    margin: 20px 0;
+  }
+
+  .ready__header {
+    //padding-top: 30px;
+    display: flex;
+    //height: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+
+    .app-link {
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .ready__info {
+    height: 60%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+
+    .ready__details {
+      display: flex;
+      align-items: center;
+      //justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .ready__details-line {
+      width: 100%;
+      height: 2px;
+      border: none;
+      background: var(--input-unfocus);
+    }
+
+    .ready__details-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+
+      .ready__details-datetime {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+
+  }
+
+}

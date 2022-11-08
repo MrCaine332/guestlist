@@ -1,0 +1,49 @@
+.card {
+  background: inherit;
+  width: 350px;
+  height: 500px;
+  position: relative;
+  overflow: hidden;  //adding overflow hidden
+  border-radius: 15px;
+  border: 1px solid rgb(40,40,40);
+  margin: 20px 0;
+
+  &:before{
+    content: '';
+    width: 1000px;
+    height: 1000px;
+    background: inherit;
+    position: absolute;
+    left: -25px;  //giving minus -25px left position
+    right: 0;
+    top: -25px;   //giving minus -25px top position
+    bottom: 0;
+    box-shadow: inset 0 0 0 3000px rgba(255,255,255,0.9);
+    filter: blur(10px);
+  }
+
+  .card__content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .card {
+    width: 100vw;
+    height: 100vh!important;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+
+    .card__content {
+    }
+  }
+}

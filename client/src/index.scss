@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --text-primary: rgb(70,70,70);
+  --text-secondary: rgb(152, 152, 152);
+  --background-color: #202c33;
+  --input-unfocus: rgb(200,200,200);
+  --input-focus: #5b768f;
+  --button: #79A0C1;
+  --button-hover: #3E5F8A;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-primary);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
