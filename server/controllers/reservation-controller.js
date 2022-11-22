@@ -1,5 +1,4 @@
 const reservationService = require('../services/reservation-service')
-const instagram = require('../instagram')
 const ApiError = require("../exceptions/api-error")
 
 class ReservationController {
