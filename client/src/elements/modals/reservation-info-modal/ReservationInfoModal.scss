@@ -1,0 +1,49 @@
+.modal__reservation-info  {
+  width: 400px;
+  height: auto;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  h2 {
+    text-align: center;
+  }
+
+  .modal__caution {
+    text-align: center;
+  }
+
+
+  .modal__info-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 30px;
+
+    .details__item {
+      p {
+        font-size: 14pt;
+      }
+    }
+  }
+
+  .modal__info-buttons {
+    display: flex;
+    gap: 10px;
+    .btn_delete {
+      border-color: orangered;
+      color: orangered;
+      .wave {
+        background-color: red;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .modal__reservation-info {
+    width: 100%;
+    height: 100%;
+  }
+}

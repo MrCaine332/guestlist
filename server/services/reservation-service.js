@@ -4,7 +4,8 @@ const ReservationModel = require("../models/reservation-model");
 const qrcode = require('qrcode')
 const instagram = require("../instagram");
 const ApiError = require("../exceptions/api-error");
-
+const pngToJpeg = require('png-to-jpeg');
+const { Parser } = require('json2csv');
 
 class ReservationService {
 
@@ -20,41 +21,47 @@ class ReservationService {
 
         const reservation = await ReservationModel.create({
             reservationCode: uuid,
-            ...body
+            ...body,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         })
 
         const thread = instagram.ig.entity.directThread([userId.toString()]);
-        const response = await thread
+        await thread
             .broadcastText(`Your reservation ${reservation.reservationCode} has been registered`);
 
+        const qr = await this.generateQRCode(reservation._id)
+
+        this.sendQRCode(qr, thread)
+
+        return {reservation: reservation, qrCode: qr}
+    }
+
+    async update(id, body) {
+        // const userId = await this.getIGUserId(body.instagramAccount)
+        //
+        // if (!userId) {
+        //     throw ApiError.BadRequest('Instagram account was not found')
+        // }
+
+        await ReservationModel.updateOne({ _id: id }, {...body})
+        const reservation = await ReservationModel.findById(id)
+
+        // const thread = instagram.ig.entity.directThread([userId.toString()]);
+        // await thread
+        //     .broadcastText(`Your reservation ${reservation.reservationCode} has been updated`);
+
         return reservation
     }
 
-    async update(code, body) {
-        const userId = await this.getIGUserId(body.instagramAccount)
-
-        if (!userId) {
-            throw ApiError.BadRequest('Instagram account was not found')
-        }
-
-        await ReservationModel.updateOne({ code }, {...body})
-        const reservation = await ReservationModel.findOne({ code })
-
-        const thread = instagram.ig.entity.directThread([userId.toString()]);
-        const response = await thread
-            .broadcastText(`Your reservation ${reservation.reservationCode} has been updated`);
-
+    async get(id) {
+        const reservation = await ReservationModel.findById(id)
         return reservation
     }
 
-    async get(code) {
+    async getByCode(code) {
         const reservation = await ReservationModel.findOne({ reservationCode: code })
         return reservation
-    }
-
-    async getByPrAgentId(prAgentId) {
-        const reservations = await ReservationModel.find({ prAgentId })
-        return reservations
     }
 
     async getAll() {
@@ -62,8 +69,13 @@ class ReservationService {
         return reservations
     }
 
-    async generateQRCode(reservationCode) {
-        const qr = await qrcode.toDataURL(`http://localhost:3000/reservation/${reservationCode}`)
+    async getByPrAgentId(prAgentId) {
+        const reservations = await ReservationModel.find({ prAgentId })
+        return reservations
+    }
+
+    async generateQRCode(id) {
+        const qr = await qrcode.toDataURL(`http://${process.env.DOMAIN}/scan/${id}`)
         return qr
     }
 
@@ -76,6 +88,48 @@ class ReservationService {
         return userId
     }
 
+    async sendQRCode(qr, thread) {
+        const buffer = new Buffer(qr.split(/,\s*/)[1],'base64');
+        const output = await pngToJpeg({quality: 90})(buffer)
+        await thread.broadcastPhoto({ file: output })
+    }
+
+
+    async downloadCSV() {
+        const reservations = await ReservationModel.find()
+
+        const fields = [{
+            label: 'RESERVATION CODE',
+            value: 'reservationCode'
+        }, {
+            label: 'RESERVEE NAME',
+            value: 'reserveeName'
+        }, {
+            label: 'NUMBER OF PLACES',
+            value: 'numberOfPlaces'
+        }, {
+            label: 'INSTAGRAM',
+            value: 'instagramAccount'
+        }, {
+            label: 'COMMENT',
+            value: 'comment'
+        }]
+
+        const json2csv = new Parser({ fields: fields })
+
+        const csv = json2csv.parse(reservations)
+        return csv
+    }
+
+    async deleteOne(id) {
+        await ReservationModel.findByIdAndDelete(id)
+        return 'DELETED'
+    }
+
+    async deleteAll() {
+        await ReservationModel.deleteMany()
+        return 'DELETED'
+    }
 }
 
 module.exports = new ReservationService()

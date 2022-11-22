@@ -1,0 +1,13 @@
+.info__editable {
+
+  h4 {
+    display: flex;
+    gap: 10px;
+
+    span {
+      transform: translateY(2px);
+      cursor: pointer;
+    }
+  }
+
+}

@@ -1,20 +1,45 @@
 
 .app-button {
-  font-size: 17px;
   display: block;
+  width: 100%;
   padding: 10px 35px;
+
   position: relative;
   overflow: hidden;
+
+  font-size: 17px;
+  text-decoration: none;
+  color: #79A0C1;
+  text-align: center;
+
   user-select: none;
   cursor: pointer;
-  //transition: background .25s;
-  text-decoration: none;
+
+  background: transparent;
   border-radius: 8px;
   border: 2px solid var(--button);
-  color: #79A0C1;
+
   transition: 0.3s;
-  background: transparent;
-  text-align: center;
+
+  &:hover {
+    border: 2px solid var(--button-hover);
+    color: var(--button-hover);
+    //background: rgb(220,220,220);
+  }
+
+  &_disabled {
+    pointer-events: none;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.2);
+    }
+  }
 
   .wave {
     background: var(--button);
@@ -26,13 +51,6 @@
     position: absolute;
   }
 }
-
-.app-button:hover {
-  border: 2px solid var(--button-hover);
-  color: var(--button-hover);
-  //background: rgb(220,220,220);
-}
-
 
 @keyframes wave {
   100% {

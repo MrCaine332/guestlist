@@ -7,8 +7,10 @@ const ReservationSchema = new Schema({
     numberOfPlaces: { type: String, required: true },
     instagramAccount: { type: String, required: true },
     comment: { type: String, default: '' },
-    createdAt: { type: Date, default: new Date().toISOString()},
-    updatedAt: { type: Date, default: new Date().toISOString()},
+    createdAt: { type: Date, default: new Date()},
+    updatedAt: { type: Date, default: new Date()},
+    reservationUsed: { type: Boolean, default: false },
+    peopleAttended: { type: Number, default: 0 }
 })
 
 module.exports =  model("Reservation", ReservationSchema)
