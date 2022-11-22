@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import store from "../redux/store";
+import authThunks from "../redux/thunks/auth-thunks";
 
 export const API_URL = `http://localhost:5000/api`
 
@@ -17,19 +18,19 @@ $api.interceptors.request.use((config: AxiosRequestConfig) => {
 $api.interceptors.response.use((config) => {
     return config;
 },async (error) => {
-    throw error
-    // const originalRequest = error.config;
-    // if (error.response.status === 401 && error.config && !error.config._isRetry) {
-    //     originalRequest._isRetry = true;
-    //     try {
-    //         const response = await axios.get(`${API_URL}/refresh`, {withCredentials: true})
-    //         localStorage.setItem('USER_TOKEN', response.data.accessToken);
-    //         return $api.request(originalRequest);
-    //     } catch (e) {
-    //         console.log('NOT AUTHORIZED')
-    //     }
-    // }
-    // throw error;
+    const originalRequest = error.config;
+    if (error.response.status === 401 && error.config && !error.config._isRetry) {
+        originalRequest._isRetry = true;
+        try {
+            const response = await axios.get(`${API_URL}/refresh`, {withCredentials: true})
+            localStorage.setItem('USER_TOKEN', response.data.accessToken);
+            return $api.request(originalRequest);
+        } catch (e) {
+            store.dispatch(authThunks.logout())
+            console.log('NOT AUTHORIZED')
+        }
+    }
+    throw error;
 })
 
 export default $api;

@@ -4,8 +4,8 @@ import {AuthSlice} from "../../types";
 const initialState: AuthSlice = {
     isAuthenticated: false,
     user: {
+        _id: '',
         username: '',
-        password: '',
         name: '',
         surname: '',
         role: '',

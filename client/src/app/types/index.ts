@@ -1,6 +1,6 @@
 export type Account = {
+	_id: string
 	username: string
-	password: string
 	name: string
 	surname: string
 	role: string
@@ -10,6 +10,7 @@ export type Account = {
 }
 
 export type Reservation = {
+	_id: string
 	reservationCode: string
 	prAgentId: string
 	reserveeName: string
@@ -17,6 +18,9 @@ export type Reservation = {
 	instagramAccount: string
 	comment: string
 	createdAt: string
+	reservationUsed: boolean
+	peopleAttended?: number
+	qrCode?: string
 }
 
 export type AppSlice = {
@@ -35,4 +39,11 @@ export type AuthSlice = {
 	isFetching: boolean
 }
 
+export type FormInput = {
+	field: string
+	type: string
+	placeholder: string
+	required: boolean
+	options?: {value: string, text: string}[]
+}
 

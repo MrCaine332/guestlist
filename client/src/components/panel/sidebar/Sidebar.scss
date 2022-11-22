@@ -1,0 +1,31 @@
+.sidebar__wrap {
+  height: 100%;
+  .sidebar {
+    width: 300px;
+    height: 100%;
+    background-color: var(--panel-background-secondary);
+    transition: all  0.4s ease;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    overflow: auto;
+    z-index: 98;
+    box-shadow: 0 0 4px 2px rgba(255,255,255,0.3);
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .sidebar__wrap .sidebar {
+    position: absolute;
+    left: -300px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .sidebar__wrap .sidebar {
+    width: 100%;
+    position: absolute;
+    left: -450px;
+  }
+}

@@ -15,13 +15,16 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
     "instagram-private-api": "^1.45.3",
+    "json2csv": "^5.0.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.0",
+    "png-to-jpeg": "^1.0.1",
     "qrcode": "^1.5.1",
     "short-unique-id": "^4.4.4"
   }

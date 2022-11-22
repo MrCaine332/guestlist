@@ -5,40 +5,80 @@ const userController = require('../controllers/user-controller')
 const reservationController = require('../controllers/reservation-controller')
 const authMiddleware = require("../middlewares/auth-middleware")
 
-
+/** =========== */
 /** User routes */
-router.post('/registration',
-    authMiddleware,
-    body('password').isLength({ min: 8 }),
-    userController.registration)
+/** =========== */
 
-router.post("/login",
+router.post('/login',
     userController.login)
 
-router.post("/check",
-    userController.check)
+router.post('/logout',
+    userController.logout)
 
-router.get('/users',
-    authMiddleware,
-    userController.getUsers)
+router.get('/refresh',
+    // authMiddleware(['ADMIN', 'PR_AGENT', 'CHECKER']),
+    userController.refresh);
 
+router.post('/account',
+    authMiddleware(['ADMIN']),
+    body('password').isLength({ min: 8 }),
+    userController.create)
 
+router.post('/account/:id',
+    authMiddleware(['ADMIN']),
+    userController.update)
+
+router.get('/accounts',
+    authMiddleware(['ADMIN']),
+    userController.get)
+
+router.delete('/account/:id',
+    authMiddleware(['ADMIN']),
+    userController.deleteOne)
+
+router.delete('/accounts',
+    authMiddleware(['ADMIN']),
+    userController.deleteAll)
+
+/** =========================================== */
+
+/** ================== */
 /** Reservation routes */
+/** ================== */
+
 router.post('/reservation',
     reservationController.createReservation)
 
-router.post('/reservation/:code',
+router.post('/reservation/:id',
+    authMiddleware(['ADMIN', 'PR_AGENT']),
     reservationController.updateReservation)
 
-router.get('/reservation/:code',
+router.get('/reservation/:id',
     reservationController.getReservation)
 
+router.get('/reservation/code/:code',
+    reservationController.getReservationByCode)
+
 router.get('/reservations',
-    authMiddleware,
-    reservationController.getAllReservations)
+    authMiddleware(['ADMIN']),
+    reservationController.getReservations)
 
 router.get('/reservations/pr/:id',
-    authMiddleware,
+    authMiddleware(['ADMIN', 'PR_AGENT']),
     reservationController.getReservationsByPrAgent)
+
+router.get('/reservations/download',
+    authMiddleware(['ADMIN']),
+    reservationController.downloadCSV)
+
+router.delete('/reservation/:id',
+    authMiddleware(['ADMIN', 'PR_AGENT']),
+    reservationController.deleteReservation)
+
+router.delete('/reservations',
+    authMiddleware(['ADMIN']),
+    reservationController.deleteReservations)
+
+/** =========================================== */
 
 module.exports = router

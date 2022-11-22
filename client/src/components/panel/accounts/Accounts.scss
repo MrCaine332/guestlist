@@ -1,0 +1,97 @@
+.reservations {
+  height: 100%;
+  width: 100%;
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .reservations__header {
+    //height: 100px;
+    background-color: var(--panel-background-secondary);
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    .reservations__total {
+
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+
+      * {
+        color: var(--panel-text-primary);
+      }
+
+      hr {
+        height: 100%;
+        width: 2px;
+        border: none;
+        background-color: var(--panel-text-secondary);
+      }
+
+      .total__item {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+
+      }
+    }
+
+    .reservations__buttons {
+      display: flex;
+      gap: 20px;
+      .app-button {
+        width: auto;
+        height: 50px;
+      }
+
+      .download__btn {
+        border-color: var(--panel-text-primary);
+        padding: 7px;
+        * {
+          fill: var(--panel-text-primary);
+        }
+      }
+
+      .delete__btn {
+        border-color: red;
+        padding: 7px;
+      }
+    }
+  }
+
+  .reservations__table_wrap {
+    height: 100%;
+    * {
+      color: var(--panel-text-primary);
+      border-radius: 0!important;
+      border-color: var(--panel-text-secondary)!important;
+      border: none;
+    }
+  }
+
+}
+
+.cell {
+  background-color: var(--panel-background-secondary);
+}
+
+@media screen and (max-width: 720px) {
+  .reservations .reservations__header {
+    justify-content: center;
+    .reservations__total {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .reservations {
+    padding: 25px 0 0 0;
+    .reservations__header .reservations__buttons {
+      gap: 10px;
+    }
+  }
+}

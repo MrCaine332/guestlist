@@ -1,11 +1,12 @@
 import {authActions} from "../slices/auth-slice";
 import {AppDispatch} from "../store";
 import $api from "../../http";
+import {appActions} from "../slices/app-slice";
 
 const login = (body: any) => {
     return async (dispatch: AppDispatch) => {
-        dispatch(authActions.setIsFetching(true))
         try {
+            dispatch(authActions.setIsFetching(true))
             const { data } = await $api.post('login', body)
             localStorage.setItem('USER_TOKEN', data.accessToken)
             dispatch(authActions.setUser(data.user))
@@ -20,25 +21,31 @@ const login = (body: any) => {
 
 const logout = () => {
     return async (dispatch: AppDispatch) => {
+        $api.post('logout')
         localStorage.removeItem('USER_TOKEN')
         dispatch(authActions.setUser({}))
         dispatch(authActions.setIsAuthenticated(false))
+        dispatch(appActions.setDefault())
     }
 }
 
-const checkAuth = () => {
+const checkAuth = (signal: AbortSignal) => {
     return async (dispatch: AppDispatch) => {
-        const accessToken = localStorage.getItem('USER_TOKEN')
-        if (accessToken) {
-            const { data } = await $api.post('check', { accessToken })
+        try {
+            dispatch(authActions.setIsFetching(true))
+            const { data } = await $api.get('refresh', { withCredentials: true, signal: signal })
             if (data) {
-                dispatch(authActions.setUser(data))
-                dispatch(authActions.setIsAuthenticated(true))
+                await dispatch(authActions.setUser(data.user))
+                await dispatch(authActions.setIsAuthenticated(true))
             } else {
                 localStorage.removeItem('USER_TOKEN')
             }
+        } catch (e) {
+
+        } finally {
+            dispatch(authActions.setIsFetching(false))
+            dispatch(authActions.setIsChecked(true))
         }
-        dispatch(authActions.setIsChecked(true))
     }
 }
 
