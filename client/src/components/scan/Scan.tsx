@@ -69,7 +69,7 @@ const Scan = () => {
                     </div> }
 				{ !checkedReservation.reservationCode && !submitted &&
 					<div>
-						Reservation not found
+						Please, scan reservation with your camera
                         <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
 					</div> }
 				{ submitted &&

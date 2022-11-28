@@ -18,9 +18,16 @@ const Login: React.FC = () => {
 	const [credentials, setCredentials] =
 		useState<{ username: string, password: string }>({username: '', password: ''})
 
-	const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const [error, setError] = useState('')
+
+	const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		dispatch(authThunks.login(credentials))
+		const err: any = await dispatch(authThunks.login(credentials))
+		if (err) {
+			setError(err.response.data.message)
+		} else {
+			setError('')
+		}
 	}
 
 	const onFormInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,6 +43,7 @@ const Login: React.FC = () => {
 			      title={'Login'}
 			      submitBtnText={'Login'}
 			      backLink={'/home'}
+			      error={error}
 			/>
 			{ isFetching && <Loader /> }
 		</>

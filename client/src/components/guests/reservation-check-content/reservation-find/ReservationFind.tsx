@@ -18,9 +18,16 @@ const ReservationFind = () => {
     const [credentials, setCredentials]
         = useState<{reservationCode: string}>({ reservationCode: '' })
 
-    const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const [error, setError] = useState('')
+
+    const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(reservationThunks.getReservationByCode(credentials.reservationCode))
+        const err: any = await dispatch(reservationThunks.getReservationByCode(credentials.reservationCode))
+        if (err) {
+            setError(err.response.data.message)
+        } else {
+            setError('')
+        }
     }
 
     const onFormInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,6 +43,7 @@ const ReservationFind = () => {
                   title={'Check'}
                   submitBtnText={'Check reservation'}
                   backLink={'/home'}
+                  error={error}
             />
             { isFetching && <Loader /> }
         </>

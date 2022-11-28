@@ -1,5 +1,6 @@
 const reservationService = require('../services/reservation-service')
 const ApiError = require("../exceptions/api-error")
+const fs = require("fs");
 
 class ReservationController {
 
@@ -96,6 +97,25 @@ class ReservationController {
         try {
             const result = await reservationService.deleteAll()
             return res.json({ message: 'DELETED_ALL '})
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getDashboardData(req, res, next) {
+        try {
+            const dashboardData = await reservationService.getDashboardData()
+            return res.json(dashboardData)
+        } catch (e) {
+            next(e)
+        }
+    }
+    async openCloseReservations(req, res, next) {
+        try {
+            const obj = JSON.parse(fs.readFileSync('status.json', 'utf8'));
+            obj.opened = !obj.opened
+            fs.writeFileSync('status.json', JSON.stringify(obj))
+            return res.json(obj)
         } catch (e) {
             next(e)
         }

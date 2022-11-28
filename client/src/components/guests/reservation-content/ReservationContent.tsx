@@ -34,9 +34,16 @@ const ReservationContent: React.FC<{ prAgentId?: string }> = ({ prAgentId }) => 
 				comment: '',
 				prAgentId: prAgentId })
 
-	const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const [error, setError] = useState('')
+
+	const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		dispatch(reservationThunks.createReservation(credentials))
+		const err: any = await dispatch(reservationThunks.createReservation(credentials))
+		if (err) {
+			setError(err.response.data.message)
+		} else {
+			setError('')
+		}
 	}
 
 	const onFormInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,6 +61,7 @@ const ReservationContent: React.FC<{ prAgentId?: string }> = ({ prAgentId }) => 
                       title={'Reservation'}
                       submitBtnText={'Reservation'}
                       backLink={'/home'}
+                      error={error}
                 />
 			}
 			{ isFetching && <Loader /> }

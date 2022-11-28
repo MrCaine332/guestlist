@@ -1,38 +1,61 @@
 import React, {useEffect} from 'react';
 import './Dashboard.scss'
 import AppButton from "../../../elements/app-button/AppButton";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import reservationThunks from "../../../app/redux/thunks/reservation-thunks";
 
 const Dashboard = () => {
 
+	const dispatch = useAppDispatch()
+
+	const dashboardData = useAppSelector(state => state.app.dashboardData)
+	const role = useAppSelector(state => state.auth.user.role)
+	const isReservationOpened = useAppSelector(state => state.app.isReservationOpened)
+	const isFetching = useAppSelector(state => state.app.isFetching)
+	// const date = useMemo(() => {
+	// 	return new Date(dashboardData.nextEvent || Date.now())
+	// }, [dashboardData.nextEvent])
+
 	useEffect(() => {
-		/**
-		 * TODO: Собираем данные по аккаунтам, резервациям и настройкам системы
-		 * */
+		const controller = new AbortController
+		dispatch(reservationThunks.getDashboardData(controller.signal))
+		return () => controller?.abort()
 	}, [])
+
+	const toggleReservation = () => {
+		dispatch(reservationThunks.openCloseReservations())
+	}
 
 	return (
 		<div className="dashboard">
 			<div className="dashboard__content">
-				<div className="a">
+				<div className="dashboard__group">
 					<div className="b">
-						<h2>76</h2>
+						<h2>{ dashboardData.reservationsNum }</h2>
 						<p>Reservations</p>
 					</div>
 					<div className="b">
-						<h2>116</h2>
+						<h2>{ dashboardData.totalPlaces }</h2>
 						<p>Places reserved</p>
 					</div>
-					<div className="c">
-						<div>
-							<p>Next event:</p>
-							<h2>19/03/22&nbsp;&nbsp;&nbsp;19:30</h2>
-						</div>
-					</div>
+				</div>
+				<div className="dashboard__group">
+					{/*<div className="c">*/}
+					{/*	<div>*/}
+					{/*		<p>Next event:</p>*/}
+					{/*		<h2>{ `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate() }/` +*/}
+					{/*			`${date.getMonth() + 1 < 10 ? '0' + date.getMonth() + 1 : date.getMonth() + 1 }/` +*/}
+					{/*			`${date.getFullYear()}  ` +*/}
+					{/*			`${date.getHours() < 10 ? '0' + date.getHours() : date.getHours() }:` +*/}
+					{/*			`${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() }` }</h2>*/}
+					{/*	</div>*/}
+					{/*</div>*/}
 					<div className="c test_c">
-							<p>Reservation is OPENED</p>
-							<AppButton onClick={() => {}} className={'test'}>
-								Close reservation
-							</AppButton>
+						<p>Reservation is { isReservationOpened ? 'OPENED' : 'CLOSED' }</p>
+						{ role === 'ADMIN' &&
+                            <AppButton onClick={toggleReservation} className={'test'} disabled={isFetching}>
+	                            { isReservationOpened ? 'Close reservations' : 'Open reservations' }
+                            </AppButton>}
 					</div>
 				</div>
 			</div>

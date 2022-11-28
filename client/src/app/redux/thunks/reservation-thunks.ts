@@ -18,7 +18,7 @@ const createReservation = (reservation: ICreateReservationData) => {
 			await dispatch(appActions.setNewReservation({...data.reservation, qrCode: data.qrCode}))
 			await dispatch(appActions.addNewReservationToAll())
 		} catch (e) {
-
+			return e
 		} finally {
 			dispatch(appActions.setIsFetching(false))
 		}
@@ -32,7 +32,7 @@ const updateReservation = (body: any) => {
 			const { data } = await $api.post(`/reservation/${body._id}`, body)
 			dispatch(appActions.updateReservation({ id: data.reservation._id, data: data.reservation }))
 		} catch (e) {
-
+			return e
 		} finally {
 			dispatch(appActions.setIsFetching(false))
 		}
@@ -46,7 +46,7 @@ const getReservation = (id: string, signal: AbortSignal) => {
 			const { data } = await $api.get(`/reservation/${id}`, { signal })
 			dispatch(appActions.setCheckedReservation({...data.reservation, qrCode: data.qrCode}))
 		} catch (e) {
-
+			return e
 		} finally {
 			dispatch(appActions.setIsFetching(false))
 		}
@@ -60,7 +60,7 @@ const getReservationByCode = (code: string) => {
 			const { data } = await $api.get(`/reservation/code/${code}`)
 			dispatch(appActions.setCheckedReservation({...data.reservation, qrCode: data.qrCode}))
 		} catch (e) {
-
+			return e
 		} finally {
 			dispatch(appActions.setIsFetching(false))
 		}
@@ -130,6 +130,28 @@ const deleteAllReservations = () => {
 	}
 }
 
+const getDashboardData = (signal: AbortSignal) => {
+	return async (dispatch: AppDispatch) => {
+		try {
+			const { data } = await $api.get(`/dashboard`, { signal })
+			dispatch(appActions.setDashboardData(data))
+		} catch (e) {
+
+		}
+	}
+}
+
+const openCloseReservations = () => {
+	return async (dispatch: AppDispatch) => {
+		try {
+			const { data } = await $api.post(`/system/toggle`)
+			dispatch(appActions.setIsReservationOpened(data.opened))
+		} catch (e) {
+
+		}
+	}
+}
+
 const reservationThunks = {
 	createReservation,
 	updateReservation,
@@ -139,6 +161,8 @@ const reservationThunks = {
 	downloadCSVReservations,
 	deleteReservation,
 	deleteAllReservations,
+	getDashboardData,
+	openCloseReservations
 }
 
 export default reservationThunks

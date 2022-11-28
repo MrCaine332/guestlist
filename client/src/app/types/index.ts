@@ -28,6 +28,12 @@ export type AppSlice = {
 	reservations: Reservation[]
 	newReservation: Reservation
 	checkedReservation: Reservation
+	dashboardData: {
+		reservationsNum: number
+		totalPlaces: number
+		nextEvent: string
+	},
+	isReservationOpened: boolean
 	isFetching: boolean
 }
 

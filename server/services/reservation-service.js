@@ -6,10 +6,16 @@ const instagram = require("../instagram");
 const ApiError = require("../exceptions/api-error");
 const pngToJpeg = require('png-to-jpeg');
 const { Parser } = require('json2csv');
+const fs = require("fs");
 
 class ReservationService {
 
     async create(body) {
+        const obj = JSON.parse(fs.readFileSync('status.json', 'utf8'));
+        if (!obj.opened) {
+            throw ApiError.BadRequest('Reservation is closed')
+        }
+
         const userId = await this.getIGUserId(body.instagramAccount)
 
         if (!userId) {
@@ -56,11 +62,17 @@ class ReservationService {
 
     async get(id) {
         const reservation = await ReservationModel.findById(id)
+        if (!reservation) {
+            throw ApiError.BadRequest('Reservation was not found')
+        }
         return reservation
     }
 
     async getByCode(code) {
         const reservation = await ReservationModel.findOne({ reservationCode: code })
+        if (!reservation) {
+            throw ApiError.BadRequest('Reservation was not found')
+        }
         return reservation
     }
 
@@ -129,6 +141,17 @@ class ReservationService {
     async deleteAll() {
         await ReservationModel.deleteMany()
         return 'DELETED'
+    }
+
+    async getDashboardData() {
+        const count = await ReservationModel.count()
+        const arrayOfPlaces = await ReservationModel.distinct('numberOfPlaces')
+        let totalPlaces = 0
+        arrayOfPlaces?.forEach((num) => {
+            totalPlaces += Number(num)
+        })
+        const obj = JSON.parse(fs.readFileSync('status.json', 'utf8'));
+        return { reservationsNum: count, totalPlaces: totalPlaces, opened: obj.opened }
     }
 }
 

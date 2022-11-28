@@ -81,4 +81,12 @@ router.delete('/reservations',
 
 /** =========================================== */
 
+router.post('/system/toggle',
+    authMiddleware(['ADMIN']),
+    reservationController.openCloseReservations)
+
+router.get('/dashboard',
+    authMiddleware(['ADMIN', 'PR_AGENT']),
+    reservationController.getDashboardData)
+
 module.exports = router

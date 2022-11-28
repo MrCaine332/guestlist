@@ -24,12 +24,19 @@ const NewAccountModal = () => {
 		password: '',
 		name: '',
 		surname: '',
-		role: '',
+		role: 'PR_AGENT',
 	})
 
-	const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const [error, setError] = useState('')
+
+	const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		dispatch(accountThunks.createAccount(credentials))
+		const err: any = await dispatch(accountThunks.createAccount(credentials))
+		if (err) {
+			setError(err.response.data.message)
+		} else {
+			setError('')
+		}
 	}
 
 	const onFormInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -50,6 +57,7 @@ const NewAccountModal = () => {
                   submitBtnText={'Create'}
                   withBackBtn={false}
                   onSelectChange={onFormSelectChange}
+                  error={error}
             />
 			{ isFetching && <Loader /> }
 		</>

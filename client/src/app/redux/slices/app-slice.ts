@@ -26,6 +26,12 @@ const initialState: AppSlice = {
         createdAt: '',
         reservationUsed: false
     },
+    dashboardData: {
+        reservationsNum: 0,
+        totalPlaces: 0,
+        nextEvent: ''
+    },
+    isReservationOpened: true,
     isFetching: false,
 }
 
@@ -45,6 +51,7 @@ const appReducer = createSlice({
         },
         addNewReservationToAll(state) {
             state.reservations = [...state.reservations, state.newReservation]
+            state.newReservation = initialState.newReservation
         },
         updateReservation(state, action) {
             state.reservations = state.reservations.map(reservation =>
@@ -91,6 +98,13 @@ const appReducer = createSlice({
             state.newReservation = initialState.newReservation
             state.checkedReservation = initialState.checkedReservation
         },
+        setDashboardData(state, action) {
+            state.dashboardData = action.payload
+            state.isReservationOpened = action.payload.opened
+        },
+        setIsReservationOpened(state, action) {
+            state.isReservationOpened = action.payload
+        }
     }
 })
 
