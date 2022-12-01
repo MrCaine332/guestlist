@@ -24,6 +24,7 @@ const Login: React.FC = () => {
 		e.preventDefault()
 		const err: any = await dispatch(authThunks.login(credentials))
 		if (err) {
+			console.log(err)
 			setError(err.response.data.message)
 		} else {
 			setError('')

@@ -83,8 +83,18 @@ const ReservationInfoModal: React.FC<{ reservationId: string, onClose: () => any
                         <InfoEditable value={updatedReservation.reservationUsed
 	                        ? `Yes, ${updatedReservation.peopleAttended}` : 'No'}
                                       onChange={onFieldChange}
-                                      field={'comment'}
-                                      title={'Comment:'}
+                                      field={'reservationUsed'}
+                                      title={'Reservation used:'}
+                                      editable={false}
+                        />
+                    </div>
+                    <div className="details__item">
+                        <InfoEditable value={updatedReservation.prAgentId
+			                ? `${updatedReservation.prAgentId.name} ${updatedReservation.prAgentId.surname}`
+	                        : 'None'}
+                                      onChange={onFieldChange}
+                                      field={'prAgentId'}
+                                      title={'PrAgent:'}
                                       editable={false}
                         />
                     </div>

@@ -22,7 +22,7 @@ const HomeContent = () => {
 			</div>
 			<div className="home__footer">
 				<AppLink to={'/login'}>
-					Click here if you are PR Agent
+					Login
 				</AppLink>
 			</div>
 		</div>

@@ -49,12 +49,18 @@ const Reservations = () => {
         return string
     }
 
-    const renderTest = (args: any) => {
+    const renderUsed = (args: any) => {
         if (args.row.reservationUsed)
             return `Yes, ${args.row.peopleAttended} people`
         if (!args.row.reservationUsed)
             return 'No'
         return ''
+    }
+
+    const renderAgent = (args: any) => {
+        if (!args.value)
+            return 'None'
+        return args.value.name + ' ' + args.value.surname
     }
 
     const columns = [
@@ -63,7 +69,8 @@ const Reservations = () => {
         { field: 'reserveeName', headerName: 'RESERVEE NAME', flex: 1, hide: size.windowWidth < 500 },
         { field: 'instagramAccount', headerName: 'INSTAGRAM', flex: 1 },
         { field: 'createdAt', headerName: 'RESERVATION DATE', flex: 1, renderCell: renderDate, hide: size.windowWidth < 1200 },
-        { field: 'reservationUsed', headerName: 'ATTENDED', renderCell: renderTest, flex: 1}
+        { field: 'reservationUsed', headerName: 'ATTENDED', renderCell: renderUsed, flex: 1},
+        { field: 'prAgentId', headerName: 'PR AGENT', renderCell: renderAgent, flex: 1, hide: size.windowWidth < 1200}
     ]
 
     const closeModal = () => {

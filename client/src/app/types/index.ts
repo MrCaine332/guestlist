@@ -12,7 +12,7 @@ export type Account = {
 export type Reservation = {
 	_id: string
 	reservationCode: string
-	prAgentId: string
+	prAgentId: any
 	reserveeName: string
 	numberOfPlaces: number
 	instagramAccount: string

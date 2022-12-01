@@ -20,6 +20,8 @@ const Scan = () => {
 
 	const checkedReservation = useAppSelector(state => state.app.checkedReservation)
 
+	const [error, setError] = useState('')
+
 	useEffect(() => {
 		const controller = new AbortController
 		if (id)
@@ -36,12 +38,16 @@ const Scan = () => {
 
 	const submitReservation = () => {
 		if (attendeesNumber) {
-			dispatch(reservationThunks.updateReservation({
-				_id: id,
-				reservationUsed: true,
-				peopleAttended: Number(attendeesNumber)
-			}))
-			setSubmitted(true)
+			if (Number(attendeesNumber) > checkedReservation.numberOfPlaces) {
+				setError('Number of attendees cannot be more then number of places')
+			} else {
+				dispatch(reservationThunks.updateReservation({
+					_id: id,
+					reservationUsed: true,
+					peopleAttended: Number(attendeesNumber)
+				}))
+				setSubmitted(true)
+			}
 		} else {
 			alert('Enter attendees number')
 		}
@@ -50,37 +56,81 @@ const Scan = () => {
 	return (
 		<div className="scan__wrap">
 			<Card className="scan">
-				{ checkedReservation.reservationCode && !submitted &&
-                    <div className="scan__content">
-                        <div className="scan__details">
-                            <h2>{checkedReservation.reservationCode}</h2>
-                            <p>Instagram: {checkedReservation.instagramAccount}</p>
-                            <p>Reservee name: {checkedReservation.reserveeName}</p>
-                            <h1>{checkedReservation.numberOfPlaces}</h1>
-                            <p>Places</p>
-                        </div>
-                        <AppInput value={attendeesNumber}
-                                  type={'number'}
-                                  onChange={(e) => setAttendeesNumber(e.target.value)}
-                                  required={true}
-                                  placeholder={'Number of attendees'}/>
-                        <AppButton onClick={submitReservation}>Submit</AppButton>
-                        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
-                    </div> }
-				{ !checkedReservation.reservationCode && !submitted &&
-					<div>
-						Please, scan reservation with your camera
-                        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
-					</div> }
-				{ submitted &&
-                    <div className="submitted">
-                        {/*<AppLink to={'/'} >*/}
-                        {/*    <Icon name="arrow-left" size={20} />*/}
-                        {/*    <span>Back</span>*/}
-                        {/*</AppLink>*/}
-						<h1>Submitted!</h1>
-                        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
-                    </div>}
+				{ checkedReservation.reservationUsed
+					? <div className="submitted">
+						{/*<AppLink to={'/'} >*/}
+						{/*    <Icon name="arrow-left" size={20} />*/}
+						{/*    <span>Back</span>*/}
+						{/*</AppLink>*/}
+						<h1>Reservation already used</h1>
+						<AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
+					</div>
+					: <>
+						{ checkedReservation.reservationCode && !submitted &&
+                            <div className="scan__content">
+                                <div className="scan__details">
+                                    <h2>{checkedReservation.reservationCode}</h2>
+                                    <p>Instagram: {checkedReservation.instagramAccount}</p>
+                                    <p>Reservee name: {checkedReservation.reserveeName}</p>
+                                    <h1>{checkedReservation.numberOfPlaces}</h1>
+                                    <p>Places</p>
+                                </div>
+                                <AppInput value={attendeesNumber}
+                                          type={'number'}
+                                          onChange={(e) => setAttendeesNumber(e.target.value)}
+                                          required={true}
+                                          placeholder={'Number of attendees'}/>
+	                            <p className="error">{ error }</p>
+                                <AppButton onClick={submitReservation}>Submit</AppButton>
+                                <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
+                            </div> }
+						{ !checkedReservation.reservationCode && !submitted &&
+                            <div>
+                                Please, scan reservation with your camera
+                                <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
+                            </div> }
+						{ submitted &&
+                            <div className="submitted">
+								{/*<AppLink to={'/'} >*/}
+								{/*    <Icon name="arrow-left" size={20} />*/}
+								{/*    <span>Back</span>*/}
+								{/*</AppLink>*/}
+                                <h1>Submitted!</h1>
+                                <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
+                            </div>}
+					</>
+				}
+				{/*{ checkedReservation.reservationCode && !submitted &&*/}
+                {/*    <div className="scan__content">*/}
+                {/*        <div className="scan__details">*/}
+                {/*            <h2>{checkedReservation.reservationCode}</h2>*/}
+                {/*            <p>Instagram: {checkedReservation.instagramAccount}</p>*/}
+                {/*            <p>Reservee name: {checkedReservation.reserveeName}</p>*/}
+                {/*            <h1>{checkedReservation.numberOfPlaces}</h1>*/}
+                {/*            <p>Places</p>*/}
+                {/*        </div>*/}
+                {/*        <AppInput value={attendeesNumber}*/}
+                {/*                  type={'number'}*/}
+                {/*                  onChange={(e) => setAttendeesNumber(e.target.value)}*/}
+                {/*                  required={true}*/}
+                {/*                  placeholder={'Number of attendees'}/>*/}
+                {/*        <AppButton onClick={submitReservation}>Submit</AppButton>*/}
+                {/*        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>*/}
+                {/*    </div> }*/}
+				{/*{ !checkedReservation.reservationCode && !submitted &&*/}
+				{/*	<div>*/}
+				{/*		Please, scan reservation with your camera*/}
+                {/*        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>*/}
+				{/*	</div> }*/}
+				{/*{ submitted &&*/}
+                {/*    <div className="submitted">*/}
+                {/*        /!*<AppLink to={'/'} >*!/*/}
+                {/*        /!*    <Icon name="arrow-left" size={20} />*!/*/}
+                {/*        /!*    <span>Back</span>*!/*/}
+                {/*        /!*</AppLink>*!/*/}
+				{/*		<h1>Submitted!</h1>*/}
+                {/*        <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>*/}
+                {/*    </div>}*/}
 			</Card>
 		</div>
 	);

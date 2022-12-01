@@ -1,10 +1,11 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import ReservationReady from "../../../components/guests/reservation-content/reservation-ready/ReservationReady";
 import Form from "../../form/Form";
 import Loader from "../../loader/Loader";
 import {FormInput} from "../../../app/types";
 import reservationThunks from "../../../app/redux/thunks/reservation-thunks";
+import {appActions} from "../../../app/redux/slices/app-slice";
 
 const inputs: FormInput[] = [
 	{ field: 'reserveeName', type: 'text', placeholder: 'Name Surname', required: true },
@@ -27,6 +28,12 @@ const NewReservationModal = () => {
 		comment: '',
 		prAgentId: user._id
 	})
+
+	useEffect(() => {
+		return () => {
+			dispatch(appActions.setNewReservation({}))
+		}
+	}, [])
 
 	const [error, setError] = useState('')
 

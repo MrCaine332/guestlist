@@ -16,11 +16,11 @@ class ReservationService {
             throw ApiError.BadRequest('Reservation is closed')
         }
 
-        const userId = await this.getIGUserId(body.instagramAccount)
+        // const userId = await this.getIGUserId(body.instagramAccount)
 
-        if (!userId) {
-            throw ApiError.BadRequest('Instagram account was not found')
-        }
+        // if (!userId) {
+        //     throw ApiError.BadRequest('Instagram account was not found')
+        // }
 
         const uid = new ShortUniqueId({ length: 10 })
         const uuid = uid().toUpperCase()
@@ -32,13 +32,13 @@ class ReservationService {
             updatedAt: new Date(),
         })
 
-        const thread = instagram.ig.entity.directThread([userId.toString()]);
-        await thread
-            .broadcastText(`Your reservation ${reservation.reservationCode} has been registered`);
+        // const thread = instagram.ig.entity.directThread([userId.toString()]);
+        // await thread
+        //     .broadcastText(`Your reservation ${reservation.reservationCode} has been registered`);
 
         const qr = await this.generateQRCode(reservation._id)
 
-        this.sendQRCode(qr, thread)
+        // this.sendQRCode(qr, thread)
 
         return {reservation: reservation, qrCode: qr}
     }
@@ -77,12 +77,12 @@ class ReservationService {
     }
 
     async getAll() {
-        const reservations = await ReservationModel.find()
+        const reservations = await ReservationModel.find().populate('prAgentId', 'name surname')
         return reservations
     }
 
     async getByPrAgentId(prAgentId) {
-        const reservations = await ReservationModel.find({ prAgentId })
+        const reservations = await ReservationModel.find({ prAgentId }).populate('prAgentId', 'name surname')
         return reservations
     }
 
@@ -108,7 +108,7 @@ class ReservationService {
 
 
     async downloadCSV() {
-        const reservations = await ReservationModel.find()
+        const reservations = await ReservationModel.find().populate('prAgentId')
 
         const fields = [{
             label: 'RESERVATION CODE',
@@ -119,6 +119,9 @@ class ReservationService {
         }, {
             label: 'NUMBER OF PLACES',
             value: 'numberOfPlaces'
+        }, {
+            label: 'PR AGENT',
+            value: 'prAgentId["username"]'
         }, {
             label: 'INSTAGRAM',
             value: 'instagramAccount'

@@ -50,7 +50,7 @@ router.post('/reservation',
     reservationController.createReservation)
 
 router.post('/reservation/:id',
-    authMiddleware(['ADMIN', 'PR_AGENT']),
+    authMiddleware(['ADMIN', 'PR_AGENT', 'CHECKER']),
     reservationController.updateReservation)
 
 router.get('/reservation/:id',

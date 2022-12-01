@@ -11,11 +11,13 @@ interface ICreateReservationData {
 }
 
 const createReservation = (reservation: ICreateReservationData) => {
-	return async (dispatch: AppDispatch) => {
+	return async (dispatch: AppDispatch, getState: any) => {
 		try {
 			dispatch(appActions.setIsFetching(true))
+			const user = getState().auth.user
 			const { data } = await $api.post('/reservation', reservation)
-			await dispatch(appActions.setNewReservation({...data.reservation, qrCode: data.qrCode}))
+			await dispatch(appActions.setNewReservation({...data.reservation, qrCode: data.qrCode,
+				prAgentId: { name: user.name, surname: user.surname }}))
 			await dispatch(appActions.addNewReservationToAll())
 		} catch (e) {
 			return e

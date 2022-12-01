@@ -51,7 +51,6 @@ const appReducer = createSlice({
         },
         addNewReservationToAll(state) {
             state.reservations = [...state.reservations, state.newReservation]
-            state.newReservation = initialState.newReservation
         },
         updateReservation(state, action) {
             state.reservations = state.reservations.map(reservation =>

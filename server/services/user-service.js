@@ -17,9 +17,9 @@ class UserService {
 
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({
-            id: userDto.id, username: userDto.username, role: userDto.role
+            _id: userDto._id, username: userDto.username, role: userDto.role
         });
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+        await tokenService.saveToken(userDto._id, tokens.refreshToken);
 
         user.lastLogin = new Date()
         await user.save()
@@ -41,13 +41,13 @@ class UserService {
         if (!userData || !tokenFromDb) {
             throw ApiError.UnauthorizedError();
         }
-        const user = await UserModel.findById(userData.id);
+        const user = await UserModel.findById(userData._id);
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({
-            id: userDto.id, username: userDto.username, role: userDto.role
+            _id: userDto._id, username: userDto.username, role: userDto.role
         });
 
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+        await tokenService.saveToken(userDto._id, tokens.refreshToken);
         return {...tokens, user: userDto}
     }
 

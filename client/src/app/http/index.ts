@@ -3,6 +3,7 @@ import store from "../redux/store";
 import authThunks from "../redux/thunks/auth-thunks";
 
 export const API_URL = `http://localhost:5000/api`
+// export const API_URL = `https://nearkheg.ru/api`
 
 const $api = axios.create({
     withCredentials: true,

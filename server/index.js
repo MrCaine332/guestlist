@@ -6,6 +6,7 @@ const router = require('./router/index')
 const mongoose = require('mongoose');
 const errorMiddleware = require('./middlewares/error-middleware')
 const instagram = require('./instagram')
+const https = require("https");
 
 const PORT = process.env.PORT || 5000
 const app = express()
@@ -29,7 +30,7 @@ const start = async () => {
             useUnifiedTopology: true
         })
 
-        await instagram.init()
+        // await instagram.init()
 
         app.listen(PORT, () => {
             console.log(`SERVER STARTED ON PORT 5000`)
