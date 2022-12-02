@@ -2,6 +2,8 @@ import React from 'react';
 import AppButton from "../../../elements/app-button/AppButton";
 import AppLink from "../../../elements/app-link/AppLink";
 import './HomeContent.scss'
+// @ts-ignore
+import logo from "../../../resources/images/logo-black.png"
 
 const HomeContent = () => {
 	return (
@@ -9,7 +11,7 @@ const HomeContent = () => {
 			<div className="home__header">
 				{/*<h1>Guestlist</h1>*/}
 				<div className="home__logo">
-
+					<img src={logo} alt=""/>
 				</div>
 			</div>
 			<div className="home__body">

@@ -14,12 +14,13 @@ const Navbar = () => {
 
     return (
         <nav className="sidebar__navbar">
-            <NavLink to={'/panel/dashboard'}
-                     className={({ isActive }) =>
-                         (`navbar__item ${isActive && 'navbar__item_active'}`)}
-                     onClick={onNavLinkClick}>
-                <Icon name={'home'} size={24} color={'white'} /> Dashboard
-            </NavLink>
+            { role === 'ADMIN' &&
+                <NavLink to={'/panel/dashboard'}
+                         className={({isActive}) =>
+                             (`navbar__item ${isActive && 'navbar__item_active'}`)}
+                         onClick={onNavLinkClick}>
+                    <Icon name={'home'} size={24} color={'white'}/> Dashboard
+                </NavLink>}
             <NavLink to={'/panel/reservations'}
                      className={({ isActive }) =>
                          (`navbar__item ${isActive && 'navbar__item_active'}`)}

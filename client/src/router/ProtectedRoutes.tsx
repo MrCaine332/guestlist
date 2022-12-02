@@ -14,11 +14,13 @@ const ProtectedRoutes = () => {
 		<Routes>
 			{ (role === 'ADMIN' || role === 'PR_AGENT') && <>
                 <Route path={'/panel'} element={<Panel />}>
-                    <Route index element={<Navigate to={'dashboard'} replace />} />
-                    <Route path={'dashboard'} element={<Dashboard />} />
+	                { role === 'ADMIN' && <Route index element={<Navigate to={'dashboard'} replace />} /> }
+	                { role === 'PR_AGENT' && <Route index element={<Navigate to={'reservations'} replace />} /> }
+	                { role === 'ADMIN' && <Route path={'dashboard'} element={<Dashboard />} /> }
                     <Route path={'reservations'} element={<Reservations />} />
 	                { role === 'ADMIN' && <Route path={'accounts'} element={<Accounts />} /> }
-                    <Route path={'*'} element={<Navigate to={'dashboard'} replace />} />
+	                { role === 'ADMIN' && <Route path={'*'} element={<Navigate to={'dashboard'} replace />} /> }
+	                { role === 'PR_AGENT' && <Route path={'*'} element={<Navigate to={'reservations'} replace />} /> }
                 </Route>
                 <Route path={'*'} element={<Navigate to={'/panel'} replace/>} />
 			</> }

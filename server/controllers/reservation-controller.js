@@ -61,7 +61,7 @@ class ReservationController {
         try {
             const { id } = req.params
 
-            if (req.user.id !== id ) {
+            if (req.user._id !== id ) {
                 return next(ApiError.ForbiddenError())
             }
 

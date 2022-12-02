@@ -19,6 +19,7 @@ const Scan = () => {
 	const [submitted, setSubmitted] = useState<boolean>(false)
 
 	const checkedReservation = useAppSelector(state => state.app.checkedReservation)
+	const isFetching = useAppSelector(state => state.app.isFetching)
 
 	const [error, setError] = useState('')
 
@@ -38,15 +39,26 @@ const Scan = () => {
 
 	const submitReservation = () => {
 		if (attendeesNumber) {
-			if (Number(attendeesNumber) > checkedReservation.numberOfPlaces) {
+			if (Number(attendeesNumber) >
+				checkedReservation.numberOfPlaces - Number(checkedReservation.peopleAttended)) {
 				setError('Number of attendees cannot be more then number of places')
 			} else {
-				dispatch(reservationThunks.updateReservation({
-					_id: id,
-					reservationUsed: true,
-					peopleAttended: Number(attendeesNumber)
-				}))
-				setSubmitted(true)
+				if (Number(attendeesNumber) <
+					checkedReservation.numberOfPlaces - Number(checkedReservation.peopleAttended)) {
+					dispatch(reservationThunks.updateReservation({
+						_id: id,
+						peopleAttended: Number(checkedReservation.peopleAttended) + Number(attendeesNumber)
+					}))
+					setSubmitted(true)
+				} else if (Number(attendeesNumber) ===
+					checkedReservation.numberOfPlaces - Number(checkedReservation.peopleAttended)) {
+					dispatch(reservationThunks.updateReservation({
+						_id: id,
+						reservationUsed: true,
+						peopleAttended: Number(checkedReservation.peopleAttended) + Number(attendeesNumber)
+					}))
+					setSubmitted(true)
+				}
 			}
 		} else {
 			alert('Enter attendees number')
@@ -72,7 +84,7 @@ const Scan = () => {
                                     <h2>{checkedReservation.reservationCode}</h2>
                                     <p>Instagram: {checkedReservation.instagramAccount}</p>
                                     <p>Reservee name: {checkedReservation.reserveeName}</p>
-                                    <h1>{checkedReservation.numberOfPlaces}</h1>
+                                    <h1>{checkedReservation.numberOfPlaces - Number(checkedReservation.peopleAttended)}</h1>
                                     <p>Places</p>
                                 </div>
                                 <AppInput value={attendeesNumber}
@@ -81,7 +93,7 @@ const Scan = () => {
                                           required={true}
                                           placeholder={'Number of attendees'}/>
 	                            <p className="error">{ error }</p>
-                                <AppButton onClick={submitReservation}>Submit</AppButton>
+                                <AppButton onClick={submitReservation} disabled={isFetching}>Submit</AppButton>
                                 <AppLink onClick={() => dispatch(authThunks.logout())}>Logout</AppLink>
                             </div> }
 						{ !checkedReservation.reservationCode && !submitted &&

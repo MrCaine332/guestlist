@@ -148,13 +148,17 @@ class ReservationService {
 
     async getDashboardData() {
         const count = await ReservationModel.count()
-        const arrayOfPlaces = await ReservationModel.distinct('numberOfPlaces')
-        let totalPlaces = 0
-        arrayOfPlaces?.forEach((num) => {
-            totalPlaces += Number(num)
-        })
+        const total = await ReservationModel.aggregate([{
+            $group : {
+                _id : null,
+                total : {
+                    $sum : "$numberOfPlaces"
+                }
+            }
+        }]);
+
         const obj = JSON.parse(fs.readFileSync('status.json', 'utf8'));
-        return { reservationsNum: count, totalPlaces: totalPlaces, opened: obj.opened }
+        return { reservationsNum: count, totalPlaces: total[0].total, opened: obj.opened }
     }
 }
 

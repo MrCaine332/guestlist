@@ -53,7 +53,7 @@ const Reservations = () => {
         if (args.row.reservationUsed)
             return `Yes, ${args.row.peopleAttended} people`
         if (!args.row.reservationUsed)
-            return 'No'
+            return `No${args.row.peopleAttended !== 0 ? `, ${args.row.peopleAttended} people` : ''}`
         return ''
     }
 
