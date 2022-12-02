@@ -30,7 +30,20 @@ const updateAccount = (body: any) => {
 			const { data } = await $api.post(`/account/${body._id}`, body)
 			dispatch(appActions.updateAccount({ id: data._id, data: data }))
 		} catch (e) {
-			console.log(e)
+			// console.log(e)
+		} finally {
+			dispatch(appActions.setIsFetching(false))
+		}
+	}
+}
+
+const updatePassword = (body: any) => {
+	return async (dispatch: AppDispatch) => {
+		try {
+			dispatch(appActions.setIsFetching(true))
+			const { data } = await $api.post(`/account/password/${body._id}`, { password: body.password })
+		} catch (e) {
+			// console.log(e)
 		} finally {
 			dispatch(appActions.setIsFetching(false))
 		}
@@ -73,6 +86,7 @@ const deleteAllAccounts = () => {
 const accountThunks = {
 	createAccount,
 	updateAccount,
+	updatePassword,
 	getAccounts,
 	deleteAccount,
 	deleteAllAccounts,

@@ -26,6 +26,11 @@ const AccountInfoModal: React.FC<{ accountId: string, onClose: () => any }>
 		dispatch(accountThunks.updateAccount(updatedAccount))
 	}
 
+	const [password, setPassword] = useState('')
+	const onChangePassword = () => {
+		dispatch(accountThunks.updatePassword({ _id: updatedAccount._id, password}))
+	}
+
 	const onDelete = () => {
 		if (account) {
 			dispatch(accountThunks.deleteAccount(account._id))
@@ -82,6 +87,14 @@ const AccountInfoModal: React.FC<{ accountId: string, onClose: () => any }>
                                       editable={updatedAccount.role !== 'ADMIN'}
                         />
                     </div>
+	                { updatedAccount.role !== 'ADMIN' &&
+                        <div className="new-password">
+	                        <h4>New password:</h4>
+                            <input type="text" value={password}
+                                   onChange={(e) => setPassword(e.target.value)} />
+	                        <button onClick={onChangePassword}>Change</button>
+                        </div>
+	                }
                 </div>
 				{updatedAccount.role !== 'ADMIN' &&
                     <div className="modal__info-buttons">

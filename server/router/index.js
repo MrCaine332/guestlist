@@ -24,6 +24,10 @@ router.post('/account',
     body('password').isLength({ min: 8 }),
     userController.create)
 
+router.post('/account/password/:id',
+    authMiddleware(['ADMIN']),
+    userController.updatePassword)
+
 router.post('/account/:id',
     authMiddleware(['ADMIN']),
     userController.update)

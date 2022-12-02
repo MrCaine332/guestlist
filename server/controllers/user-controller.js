@@ -62,6 +62,17 @@ class UserController {
         }
     }
 
+    async updatePassword(req, res, next) {
+        try {
+            const { id } = req.params
+            const userData = await userService.updatePassword(id, req.body.password)
+
+            return res.json(userData)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async get(req, res, next) {
         try {
             const data = await userService.get()

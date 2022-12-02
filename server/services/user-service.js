@@ -83,6 +83,18 @@ class UserService {
         return user
     }
 
+    async updatePassword(id, password) {
+        const candidate = await UserModel.findById(id)
+        if (candidate.role === 'ADMIN')
+            throw ApiError.BadRequest("Admin accounts cannot be deleted")
+
+        const hashPassword = await bcrypt.hash(password, 3)
+
+        await UserModel.updateOne({ _id: id }, {password: hashPassword, updatedAt: new Date()})
+        const user = await UserModel.findById(id)
+        return user
+    }
+
     async get() {
         const users = await UserModel.find({}, '-password')
         return users
