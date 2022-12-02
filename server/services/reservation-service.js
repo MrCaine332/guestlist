@@ -87,7 +87,7 @@ class ReservationService {
     }
 
     async generateQRCode(id) {
-        const qr = await qrcode.toDataURL(`http://${process.env.DOMAIN}/scan/${id}`)
+        const qr = await qrcode.toDataURL(`https://${process.env.DOMAIN}/scan/${id}`)
         return qr
     }
 
