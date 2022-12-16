@@ -120,6 +120,9 @@ class ReservationService {
             label: 'NUMBER OF PLACES',
             value: 'numberOfPlaces'
         }, {
+            label: 'PEOPLE ATTENDED',
+            value: 'peopleAttended'
+        }, {
             label: 'PR AGENT',
             value: 'prAgentId["username"]'
         }, {

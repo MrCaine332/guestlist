@@ -123,7 +123,7 @@ const Reservations = () => {
                           loading={isFetching}
                           columns={columns}
                           getRowId={(reservation: Reservation) => reservation._id}
-                          onRowClick={onRowClick}
+                          onRowDoubleClick={onRowClick}
                           hideFooter={true}
                           getCellClassName={() => 'cell'}
                 />

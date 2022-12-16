@@ -28,7 +28,7 @@ $api.interceptors.response.use((config) => {
             return $api.request(originalRequest);
         } catch (e) {
             store.dispatch(authThunks.logout())
-            console.log('NOT AUTHORIZED')
+            // console.log('NOT AUTHORIZED')
         }
     }
     throw error;
